@@ -1,0 +1,885 @@
+openapi: 3.0.3
+info:
+  title: OS Facil API
+  version: "1.0"
+  description: API de Gestão de Clientes, Funcionários, Veículos, Ordens de Serviço, Pagamentos e Produtos
+servers:
+  - url: http://localhost:8080
+tags:
+  - name: Auth
+    description: Endpoints de autenticação
+  - name: Cliente
+    description: Endpoints de clientes
+  - name: Funcionario
+    description: Endpoints de funcionários
+  - name: Veiculo
+    description: Endpoints de veículos
+  - name: OrdemServico
+    description: Endpoints de ordens de serviço
+  - name: Pagamento
+    description: Endpoints de pagamentos
+  - name: Produto
+    description: Endpoints de produtos
+  - name: ItemProduto
+    description: Endpoints de itens de produto
+
+paths:
+  # AUTH
+  /login:
+    post:
+      tags:
+        - Auth
+      summary: Efetuar login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DadosLogin'
+      responses:
+        '200':
+          description: Login efetuado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenResponseDTO'
+        '400':
+          description: Dados inválidos
+
+  /register:
+    post:
+      tags:
+        - Auth
+      summary: Registrar novo cliente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDTO'
+      responses:
+        '200':
+          description: Cliente cadastrado com sucesso
+        '400':
+          description: Já existe cliente com este e-mail
+
+  # CLIENTE
+  /clientes:
+    get:
+      tags:
+        - Cliente
+      summary: Listar todos os clientes
+      responses:
+        '200':
+          description: Lista de clientes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClienteDTO'
+    post:
+      tags:
+        - Cliente
+      summary: Criar cliente
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClienteDTO'
+      responses:
+        '200':
+          description: Cliente criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClienteDTO'
+
+  /clientes/{id}:
+    get:
+      tags:
+        - Cliente
+      summary: Buscar cliente por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Cliente encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClienteDTO'
+    put:
+      tags:
+        - Cliente
+      summary: Atualizar cliente
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClienteDTO'
+      responses:
+        '200':
+          description: Cliente atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClienteDTO'
+    delete:
+      tags:
+        - Cliente
+      summary: Deletar cliente
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Cliente deletado
+
+  # FUNCIONARIO
+  /funcionarios:
+    get:
+      tags:
+        - Funcionario
+      summary: Listar todos os funcionários
+      responses:
+        '200':
+          description: Lista de funcionários
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FuncionarioDTO'
+    post:
+      tags:
+        - Funcionario
+      summary: Criar funcionário
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FuncionarioDTO'
+      responses:
+        '200':
+          description: Funcionário criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuncionarioDTO'
+
+  /funcionarios/{id}:
+    get:
+      tags:
+        - Funcionario
+      summary: Buscar funcionário por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Funcionário encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuncionarioDTO'
+    put:
+      tags:
+        - Funcionario
+      summary: Atualizar funcionário
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FuncionarioDTO'
+      responses:
+        '200':
+          description: Funcionário atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FuncionarioDTO'
+    delete:
+      tags:
+        - Funcionario
+      summary: Deletar funcionário
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Funcionário deletado
+
+  # VEICULO
+  /veiculos:
+    get:
+      tags:
+        - Veiculo
+      summary: Listar todos os veículos
+      responses:
+        '200':
+          description: Lista de veículos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VeiculoDTO'
+    post:
+      tags:
+        - Veiculo
+      summary: Criar veículo
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VeiculoDTO'
+      responses:
+        '200':
+          description: Veículo criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VeiculoDTO'
+
+  /veiculos/{id}:
+    get:
+      tags:
+        - Veiculo
+      summary: Buscar veículo por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Veículo encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VeiculoDTO'
+    put:
+      tags:
+        - Veiculo
+      summary: Atualizar veículo
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VeiculoDTO'
+      responses:
+        '200':
+          description: Veículo atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VeiculoDTO'
+    delete:
+      tags:
+        - Veiculo
+      summary: Deletar veículo
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Veículo deletado
+
+  # ORDEM DE SERVICO
+  /ordem-servicos:
+    get:
+      tags:
+        - OrdemServico
+      summary: Listar todas as ordens de serviço
+      responses:
+        '200':
+          description: Lista de ordens de serviço
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OrdemServicoDTO'
+    post:
+      tags:
+        - OrdemServico
+      summary: Criar ordem de serviço
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrdemServicoDTO'
+      responses:
+        '200':
+          description: Ordem criada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdemServicoDTO'
+
+  /ordem-servicos/{id}:
+    get:
+      tags:
+        - OrdemServico
+      summary: Buscar ordem por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Ordem encontrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdemServicoDTO'
+    put:
+      tags:
+        - OrdemServico
+      summary: Atualizar ordem
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrdemServicoDTO'
+      responses:
+        '200':
+          description: Ordem atualizada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdemServicoDTO'
+    delete:
+      tags:
+        - OrdemServico
+      summary: Deletar ordem
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Ordem deletada
+
+  # PAGAMENTOS
+  /pagamentos:
+    get:
+      tags:
+        - Pagamento
+      summary: Listar todos os pagamentos
+      responses:
+        '200':
+          description: Lista de pagamentos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PagamentoDTO'
+    post:
+      tags:
+        - Pagamento
+      summary: Criar pagamento
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PagamentoDTO'
+      responses:
+        '200':
+          description: Pagamento criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagamentoDTO'
+
+  /pagamentos/{id}:
+    get:
+      tags:
+        - Pagamento
+      summary: Buscar pagamento por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Pagamento encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagamentoDTO'
+    put:
+      tags:
+        - Pagamento
+      summary: Atualizar pagamento
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PagamentoDTO'
+      responses:
+        '200':
+          description: Pagamento atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagamentoDTO'
+    delete:
+      tags:
+        - Pagamento
+      summary: Deletar pagamento
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Pagamento deletado
+
+  # PRODUTOS
+  /produtos:
+    get:
+      tags:
+        - Produto
+      summary: Listar todos os produtos
+      responses:
+        '200':
+          description: Lista de produtos
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProdutoDTO'
+    post:
+      tags:
+        - Produto
+      summary: Criar produto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProdutoDTO'
+      responses:
+        '200':
+          description: Produto criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProdutoDTO'
+
+  /produtos/{id}:
+    get:
+      tags:
+        - Produto
+      summary: Buscar produto por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Produto encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProdutoDTO'
+    put:
+      tags:
+        - Produto
+      summary: Atualizar produto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProdutoDTO'
+      responses:
+        '200':
+          description: Produto atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProdutoDTO'
+    delete:
+      tags:
+        - Produto
+      summary: Deletar produto
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Produto deletado
+
+  # ITENS PRODUTO
+  /itens-produto:
+    get:
+      tags:
+        - ItemProduto
+      summary: Listar todos os itens de produto
+      responses:
+        '200':
+          description: Lista de itens de produto
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ItemProdutoDTO'
+    post:
+      tags:
+        - ItemProduto
+      summary: Criar item de produto
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemProdutoDTO'
+      responses:
+        '200':
+          description: Item criado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemProdutoDTO'
+
+  /itens-produto/{id}:
+    get:
+      tags:
+        - ItemProduto
+      summary: Buscar item por ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Item encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemProdutoDTO'
+    put:
+      tags:
+        - ItemProduto
+      summary: Atualizar item
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemProdutoDTO'
+      responses:
+        '200':
+          description: Item atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemProdutoDTO'
+    delete:
+      tags:
+        - ItemProduto
+      summary: Deletar item
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Item deletado
+
+# COMPONENTS / SCHEMAS
+components:
+  schemas:
+    DadosLogin:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      required:
+        - email
+        - password
+
+    TokenResponseDTO:
+      type: object
+      properties:
+        tokenAcesso:
+          type: string
+        nome:
+          type: string
+        email:
+          type: string
+
+    RegisterDTO:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+        nome:
+          type: string
+        telefone:
+          type: string
+        endereco:
+          type: string
+        cpf:
+          type: string
+      required:
+        - email
+        - password
+        - nome
+        - telefone
+        - endereco
+        - cpf
+
+    ClienteDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+        senha:
+          type: string
+        telefone:
+          type: string
+        endereco:
+          type: string
+        veiculoIds:
+          type: array
+          items:
+            type: integer
+      required:
+        - nome
+        - cpf
+        - email
+        - senha
+        - telefone
+        - endereco
+
+    FuncionarioDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        cpf:
+          type: string
+        email:
+          type: string
+        salario:
+          type: number
+        login:
+          type: string
+        senha:
+          type: string
+        cargo:
+          type: string
+      required:
+        - nome
+        - cpf
+        - email
+        - salario
+        - login
+        - senha
+        - cargo
+
+    VeiculoDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        modelo:
+          type: string
+        cor:
+          type: string
+        marca:
+          type: string
+        ano:
+          type: integer
+        clienteId:
+          type: integer
+        placa:
+          type: string
+      required:
+        - modelo
+        - cor
+        - marca
+        - ano
+        - clienteId
+        - placa
+
+    OrdemServicoDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        clienteId:
+          type: integer
+        status:
+          type: string
+        descricao:
+          type: string
+        statusPagamento:
+          type: string
+        valor:
+          type: number
+      required:
+        - clienteId
+        - status
+        - descricao
+        - statusPagamento
+        - valor
+
+    PagamentoDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        formaPagamento:
+          type: string
+        valor:
+          type: number
+        clienteId:
+          type: integer
+      required:
+        - formaPagamento
+        - valor
+        - clienteId
+
+    ProdutoDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        preco:
+          type: number
+        quantidade:
+          type: integer
+      required:
+        - nome
+        - preco
+        - quantidade
+
+    ItemProdutoDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+        ordemServicoId:
+          type: integer
+        produtoId:
+          type: integer
+        quantidade:
+          type: integer
+        valorUnitario:
+          type: number
+        subtotal:
+          type: number
+      required:
+        - ordemServicoId
+        - produtoId
+        - quantidade
+        - valorUnitario
+        - subtotal

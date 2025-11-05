@@ -1,0 +1,38 @@
+package com.oracle.OSfacil.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import com.oracle.OSfacil.model.Veiculo;
+import jakarta.persistence.Column;
+import jakarta.persistence.OneToOne;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import lombok.Data;
+import org.hibernate.validator.constraints.br.CPF;
+import org.springframework.hateoas.RepresentationModel;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Data
+public class ClienteDTO extends RepresentationModel<ClienteDTO> {
+    private Long id;
+    @NotBlank(message = "O nome não pode estar vazio")
+    private String nome;
+    @NotBlank(message = "O cpf não pode estar vazio")
+    @CPF(message = "cpf inválido")
+    private String cpf;
+    @NotBlank(message = "O email não pode estar vazio")
+    @Pattern(regexp = "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$", message = "Email deve estar em um formato válido"
+    )
+    private String email;
+    @NotBlank(message = "senhao nao pode estar vazio")
+    private String senha;
+    private Set<Long> veiculoIds = new HashSet<>(); //n posso colocar @NotNull,pois n conseguiria criar o cliente nem o veiculo,mas o cliente pode existir sem o veiculo
+    @NotBlank(message = "O telefone não pode estar vazio")
+    @Pattern(regexp = "\\d{10,11}", message = "Telefone deve ter 10 ou 11 dígitos")
+    private String telefone;
+    @NotBlank(message = "O endereço não pode estar vazio")
+    private String endereco;
+}

@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: nextgate
+  hateoas:
+    use-hal-as-default-json-media-type: false
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: oracle.jdbc.OracleDriver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    defer-datasource-initialization: true
+    database-platform: org.hibernate.dialect.OracleDialect
+    show-sql: true  # To show SQL queries in the console (optional)
+    open-in-view: false  # Best practice to disable Open Session in View pattern
+  devtools:
+    restart:
+      enabled: true
+logging:
+  level:
+    root: INFO
+    br: DEBUG
+    org:
+      hibernate:
+        SQL: DEBUG         # Ativa o log das SQL queries
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE  # Mostra parâmetros das queries
+
+springdoc:
+  hal:
+    enabled: false
