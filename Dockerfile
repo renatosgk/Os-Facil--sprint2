@@ -2,7 +2,7 @@
 # STAGE 1: BUILD (Etapa de Compilação)
 # Esta etapa usa uma imagem completa com JDK e Maven para compilar o código.
 # ----------------------------------------------------------------------
-FROM maven:3.9.6-eclipse-temurin-17 AS build
+FROM maven:3.9.6-eclipse-temurin-21 AS build
 
 # Define o diretório de trabalho dentro do container
 WORKDIR /app
@@ -18,7 +18,7 @@ RUN mvn clean package -DskipTests
 # STAGE 2: RUN (Etapa de Execução)
 # Esta etapa usa uma imagem muito mais leve (somente JRE) para rodar a aplicação.
 # ----------------------------------------------------------------------
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:21-jre-alpine
 
 # Define o diretório de trabalho
 WORKDIR /app
