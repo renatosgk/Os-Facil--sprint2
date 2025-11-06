@@ -12,8 +12,8 @@ public class OSfacilApplication {
 	public static void main(String[] args) {
         //Dotenv dotenv = Dotenv.load();
         //dotenv.entries().forEach(entry ->
-       //         System.setProperty(entry.getKey(), entry.getValue())
-       // );
+        //       System.setProperty(entry.getKey(), entry.getValue())
+       //);
 		SpringApplication.run(OSfacilApplication.class, args);
 	}
 
